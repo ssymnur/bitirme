@@ -1,0 +1,4 @@
+,BERT (%),TextBlob (%)
+Negative,77.65,10.88
+Neutral,0.0,41.18
+Positive,22.35,47.94
