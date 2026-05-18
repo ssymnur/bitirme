@@ -18,7 +18,7 @@ from nltk.stem import WordNetLemmatizer
 st.set_page_config(page_title="Reddit Sentiment Pro", layout="wide")
 
 # ===================================
-# ULTRA MODERN CSS (FULL SCREEN BUBBLES & WHITE METRICS)
+# ULTRA MODERN CSS 
 # ===================================
 st.markdown("""
 <style>
@@ -126,7 +126,7 @@ def load_assets():
         top_k=1
     )
 
-    # İÇGÖRÜ VE GENELLEME YETENEĞİ ÇOK DAHA YÜKSEK OLAN FLAN-T5 MODELİNE GEÇTİK
+    # İÇGÖRÜ VE GENELLEME YETENEĞİ ÇOK DAHA YÜKSEK OLAN FLAN-T5 MODELİ
     model_name = "google/flan-t5-base"
     sum_tokenizer = AutoTokenizer.from_pretrained(model_name)
     sum_model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
@@ -196,7 +196,7 @@ if analyze_btn:
                     negative_text = " | ".join(negative_comments[:30])
 
                     # -----------------------------
-                    # TRENDYOL TARZI GENEL İÇGÖRÜ ÜRETİMİ (PROMPT-BASED)
+                    #  GENEL İÇGÖRÜ ÜRETİMİ (PROMPT-B
                     # -----------------------------
                     if len(positive_text) > 50:
                         # Yapay zekaya tekil yorumları kopyalamamasını, genel bir ortak fikir damıtmasını emrediyoruz
