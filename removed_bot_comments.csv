@@ -28,7 +28,7 @@ If you're worried that ""Well, if I pivot, others will pivot too..."", then know
 
 I am thankful for AI because it's given me the power to implement obscure algorithms, such as the Franta-Mally event set simulation algorithm. There's no info on it on the web. But since I had the paper, I gave excerpts of it to ChatGPT and it helped me implement it. Now I'll be making my own Cron daemon using an algorithm that none of the others use. 
 
-Had I asked ChatGPT to 'implement me a cron daemon pls', it would have croaked. You can try it right now if you want. If you spend your time making intricate, complex side projects, then employers know you're valuable.",2025-07-30,0,Old,3,True
+Had I asked ChatGPT to 'implement me a cron daemon pls', it would have croaked. You can try it right now if you want. If you spend your time making intricate, complex side projects, then employers know you're valuable.",2025-07-30,-1,Old,3,True
 Real talk - what’s the future with AI? Had a scare today,AutoModerator,"Sorry, you do not meet the minimum sitewide comment karma requirement of **10** to post a comment. This is comment karma exclusively, not post or overall karma nor karma on this subreddit alone. Please try again after you have acquired more karma. Please look at the [rules page](https://old.reddit.com/r/cscareerquestions/w/posting_rules) for more information.
 
 *I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/cscareerquestions) if you have any questions or concerns.*",2025-07-31,1,Old,5,True
@@ -63,9 +63,9 @@ Real talk - what’s the future with AI? Had a scare today,AutoModerator,"Sorry,
 
 *I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/cscareerquestions) if you have any questions or concerns.*",2026-03-01,1,Old,5,True
 Real talk - what’s the future with AI? Had a scare today,TeraBaap172121414,I agree,2025-08-02,1,Old,3,True
-Real talk - what’s the future with AI? Had a scare today,Automatic_Ring_7553,"The quality of newer models compared to their predecessors has been marginal over the past year if you've been paying attention at all. All of the recent developments (rag, agents, MCP, etc) are just advanced tooling, the only thing that's changed is the context window, and that has diminishing returns",2025-07-30,5,Old,4,True
+Real talk - what’s the future with AI? Had a scare today,Automatic_Ring_7553,"The quality of newer models compared to their predecessors has been marginal over the past year if you've been paying attention at all. All of the recent developments (rag, agents, MCP, etc) are just advanced tooling, the only thing that's changed is the context window, and that has diminishing returns",2025-07-30,4,Old,4,True
 Real talk - what’s the future with AI? Had a scare today,vervaincc,"AI isn't as skilled as a printing press at its given task.  
-Also, calligraphers still exist.",2025-07-30,30,Old,3,True
+Also, calligraphers still exist.",2025-07-30,34,Old,3,True
 Real talk - what’s the future with AI? Had a scare today,vervaincc,"Yeah, a lot of juniors think that.  
 Actual devs aren't worried.",2026-01-14,2,Old,3,True
 Real talk - what’s the future with AI? Had a scare today,Previous_Start_2248,"Check this for a summary on ai agents https://medium.com/@penkow/summary-of-googles-ai-white-paper-agents-d5670ae495c9
@@ -73,7 +73,7 @@ Real talk - what’s the future with AI? Had a scare today,Previous_Start_2248,"
 This for mcp servers https://www.anthropic.com/news/model-context-protocol
 
 Its all a new field so you'll need to research and learn yourself mostly but once you get used to it, developing with ai can elevate your work.",2025-07-30,5,Old,3,True
-Real talk - what’s the future with AI? Had a scare today,deleted,Yes. https://epoch.ai/data-insights/llm-inference-price-trends,2025-07-30,6,Old,4,True
+Real talk - what’s the future with AI? Had a scare today,deleted,Yes. https://epoch.ai/data-insights/llm-inference-price-trends,2025-07-30,5,Old,4,True
 Real talk - what’s the future with AI? Had a scare today,AutoModerator,"Sorry, you do not meet the minimum sitewide comment karma requirement of **10** to post a comment. This is comment karma exclusively, not post or overall karma nor karma on this subreddit alone. Please try again after you have acquired more karma. Please look at the [rules page](https://old.reddit.com/r/cscareerquestions/w/posting_rules) for more information.
 
 *I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/cscareerquestions) if you have any questions or concerns.*",2025-07-31,1,Old,5,True
@@ -81,25 +81,25 @@ Real talk - what’s the future with AI? Had a scare today,RailRuler,"Yes, I hav
 Real talk - what’s the future with AI? Had a scare today,AutoModerator,"Sorry, you do not meet the minimum sitewide comment karma requirement of **10** to post a comment. This is comment karma exclusively, not post or overall karma nor karma on this subreddit alone. Please try again after you have acquired more karma. Please look at the [rules page](https://old.reddit.com/r/cscareerquestions/w/posting_rules) for more information.
 
 *I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/cscareerquestions) if you have any questions or concerns.*",2025-07-31,1,Old,5,True
-Real talk - what’s the future with AI? Had a scare today,Personal-Reality9045,hahah yea.,2025-07-30,7,Old,3,True
+Real talk - what’s the future with AI? Had a scare today,Personal-Reality9045,hahah yea.,2025-07-30,8,Old,3,True
 Real talk - what’s the future with AI? Had a scare today,AutoModerator,"Sorry, you do not meet the minimum sitewide comment karma requirement of **10** to post a comment. This is comment karma exclusively, not post or overall karma nor karma on this subreddit alone. Please try again after you have acquired more karma. Please look at the [rules page](https://old.reddit.com/r/cscareerquestions/w/posting_rules) for more information.
 
 *I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/cscareerquestions) if you have any questions or concerns.*",2025-08-21,1,Old,5,True
-Real talk - what’s the future with AI? Had a scare today,Automatic_Ring_7553,Lol you said the leap was crazy then went on to mention all of the advanced tooling you've built around it which was exactly the point I was trying to make,2025-07-30,8,Old,4,True
+Real talk - what’s the future with AI? Had a scare today,Automatic_Ring_7553,Lol you said the leap was crazy then went on to mention all of the advanced tooling you've built around it which was exactly the point I was trying to make,2025-07-30,7,Old,4,True
 Real talk - what’s the future with AI? Had a scare today,vervaincc,"I have two painted portraits in my house...when you want a painted piece you go to a painter...   
-AI isn't as skilled as a camera at its given task.",2025-07-30,14,Old,3,True
+AI isn't as skilled as a camera at its given task.",2025-07-30,15,Old,3,True
 Real talk - what’s the future with AI? Had a scare today,vervaincc,"You seem to be missing the other sentence in my statement.  
 There are still making money at these types of professions even though tools exist that do the same task nearly perfectly.  
 AI does not do the job of a software engineer even close to perfectly, or even particularly well.  
-And in the history of computing, nothing that has made developers faster has resulted in a long term reduction in developer demand.",2025-07-30,6,Old,3,True
-Real talk - what’s the future with AI? Had a scare today,vervaincc,A few.  But you're also focusing on the analogy instead of the message.,2025-07-30,4,Old,3,True
+And in the history of computing, nothing that has made developers faster has resulted in a long term reduction in developer demand.",2025-07-30,5,Old,3,True
+Real talk - what’s the future with AI? Had a scare today,vervaincc,A few.  But you're also focusing on the analogy instead of the message.,2025-07-30,5,Old,3,True
 Real talk - what’s the future with AI? Had a scare today,vervaincc,">Saying that ai possesses less skill is nonsensical. Neither possesses skill.
 
 Arguing semantics is pretty lame.  You understood what I meant, you just wanted to feel ""right"".  
 
 >AI is already fantastically productive
 
-Not enough to replace a person.  Not even close.",2025-07-30,3,Old,3,True
+Not enough to replace a person.  Not even close.",2025-07-30,4,Old,3,True
 "I am anxious because of AI, please help me",AutoModerator,"## Welcome to the r/ArtificialIntelligence gateway
 ### Question Discussion Guidelines
 
@@ -182,7 +182,7 @@ But yes, most countries don't care that people are going to live in extreme pove
 
 This is why I know this is deliberate. This is an effort to get people to take extremely low wages for high-stress, toxic jobs. A lot of ppl who have been working with computers actually can't work in trades or in physical labor, so what do they do? They suffer.
 
-It will backfire eventually, but I don't know if I'll be around to see it.",2026-01-10,35,Recent,3,True
+It will backfire eventually, but I don't know if I'll be around to see it.",2026-01-10,37,Recent,3,True
 "What happens to people who are already jobless in an AI-driven, oversaturated job market?",CTGO2020,"The village people collect out pitch folks and rally against the politicians and CEO's that instituted our demise or collect Universal Basic Income but in reality it'll be a yet another hot day in Climate Changed world where our collective leaders never face any consequences for the shitshow their short sighted decisions to make short-term gains with no long term planning for progressing society or the human race.
 
 'They'(CEO's and politicians?) socialize costs by using tax payer monies to pay for expenditure via corporate welfare while privatizing profits. Corporations are profiteering immensely from gov subsidies. 
@@ -195,7 +195,7 @@ Additionally, AI only stops people from working when AI outperforms a person. If
 "What happens to people who are already jobless in an AI-driven, oversaturated job market?",sustainstack,"lol, outsourced our dystopian ai future predictions to ai.",2026-01-11,5,Recent,3,True
 "What happens to people who are already jobless in an AI-driven, oversaturated job market?",violetauto,"Am I not understanding?   
   
-For co-ops to work, there has to be some outside money coming in from somewhere. You can’t keep trading around the same $5. Yes, on a global scale we are all trading around the same $5, but smaller “bedroom” communities can’t do that. At least one or two independently wealthy families have to be in that community. Or, a good many of the members have to work elsewhere.",2026-01-11,7,Recent,3,True
+For co-ops to work, there has to be some outside money coming in from somewhere. You can’t keep trading around the same $5. Yes, on a global scale we are all trading around the same $5, but smaller “bedroom” communities can’t do that. At least one or two independently wealthy families have to be in that community. Or, a good many of the members have to work elsewhere.",2026-01-11,6,Recent,3,True
 "What happens to people who are already jobless in an AI-driven, oversaturated job market?",Munkeyman18290,"Heres the article. They disagree with you on productivity.
 
 https://finance.yahoo.com/news/ai-layoffs-looking-more-more-210954693.html",2026-01-11,3,Recent,3,True

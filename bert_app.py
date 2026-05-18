@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import torch
 import time
 import json
-from transformers import pipeline
+from transformers import pipeline, AutoTokenizer, AutoModelForSeq2SeqLM
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
@@ -108,13 +108,32 @@ div[data-testid="stMetric"], .stDataFrame, div.stButton, .css-1r6p78m {
 # -----------------------------------
 @st.cache_resource
 def load_assets():
-    nltk.download('stopwords')
-    nltk.download('wordnet')
-    sent_model = pipeline("sentiment-analysis", model="cardiffnlp/twitter-roberta-base-sentiment-latest")
-    emot_model = pipeline("text-classification", model="j-hartmann/emotion-english-distilroberta-base", top_k=1)
-    return sent_model, emot_model
+    try:
+        nltk.data.find('corpora/stopwords')
+        nltk.data.find('corpora/wordnet')
+    except LookupError:
+        nltk.download('stopwords')
+        nltk.download('wordnet')
 
-sent_pipe, emot_pipe = load_assets()
+    sent_model = pipeline(
+        "sentiment-analysis",
+        model="cardiffnlp/twitter-roberta-base-sentiment-latest"
+    )
+
+    emot_model = pipeline(
+        "text-classification",
+        model="j-hartmann/emotion-english-distilroberta-base",
+        top_k=1
+    )
+
+    # İÇGÖRÜ VE GENELLEME YETENEĞİ ÇOK DAHA YÜKSEK OLAN FLAN-T5 MODELİNE GEÇTİK
+    model_name = "google/flan-t5-base"
+    sum_tokenizer = AutoTokenizer.from_pretrained(model_name)
+    sum_model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+
+    return sent_model, emot_model, sum_tokenizer, sum_model
+
+sent_pipe, emot_pipe, summary_tokenizer, summary_model = load_assets()
 stop_words = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
 
@@ -161,58 +180,113 @@ if analyze_btn:
                 df["Cleaned"] = df["Comment"].apply(clean_text)
                 df = df[df["Cleaned"].str.len() > 10].reset_index(drop=True)
 
-                sent_results = sent_pipe(df["Cleaned"].tolist())
-                emot_results = emot_pipe(df["Cleaned"].tolist())
-                
-                df["Sentiment"] = [r["label"].capitalize() for r in sent_results]
-                df["Confidence"] = [round(r["score"]*100, 1) for r in sent_results]
-                df["Emotion"] = [r[0]["label"] for r in emot_results]
+                if df.empty:
+                    st.warning("No valid comments found to analyze.")
+                else:
+                    sent_results = sent_pipe(df["Cleaned"].tolist())
+                    emot_results = emot_pipe(df["Cleaned"].tolist())
 
-                # --- DASHBOARD ---
-                st.markdown('<h3 class="white-header">📊 Deep Insights Dashboard</h3>', unsafe_allow_html=True)
-                
-                counts = df["Sentiment"].value_counts()
-                emot_counts = df["Emotion"].value_counts().head(6)
-                
-                m1, m2, m3 = st.columns(3)
-                # Metriklerin yanına okları manuel ekledik çünkü CSS bazen ok renklerini eziyor
-                m1.metric("Positive", f"{counts.get('Positive', 0)}", "↑")
-                m2.metric("Negative", f"{counts.get('Negative', 0)}", "↓")
-                m3.metric("Neutral", f"{counts.get('Neutral', 0)}", "↔")
+                    df["Sentiment"] = [r["label"].capitalize() for r in sent_results]
 
-                st.markdown("<br>", unsafe_allow_html=True)
-                col_left, col_right = st.columns(2)
-                
-                with col_left:
-                    st.markdown("<p style='font-weight: bold; color: white;'>🎯 Sentiment Share</p>", unsafe_allow_html=True)
-                    fig1, ax1 = plt.subplots(figsize=(6, 5))
-                    fig1.patch.set_alpha(0)
-                    colors = ['#3b82f6', '#ef4444', '#94a3b8']
-                    ax1.pie(counts, labels=counts.index, autopct='%1.1f%%', startangle=140, colors=colors,
-                            pctdistance=0.75, textprops={'color':"w", 'weight':'bold'},
-                            wedgeprops={'width': 0.4, 'edgecolor': '#0f172a', 'linewidth': 2})
-                    st.pyplot(fig1)
+                    positive_comments = df[df["Sentiment"] == "Positive"]["Comment"].tolist()
+                    negative_comments = df[df["Sentiment"] == "Negative"]["Comment"].tolist()
 
-                with col_right:
-                    st.markdown("<p style='font-weight: bold; color: white;'>🎭 Emotional Tone</p>", unsafe_allow_html=True)
-                    fig2, ax2 = plt.subplots(figsize=(8, 6))
-                    fig2.patch.set_alpha(0)
-                    ax2.set_facecolor('none')
+                    # Daha fazla yorumu bir araya getiriyoruz ki "Genelleme" yapabilsin
+                    positive_text = " | ".join(positive_comments[:30])
+                    negative_text = " | ".join(negative_comments[:30])
+
+                    # -----------------------------
+                    # TRENDYOL TARZI GENEL İÇGÖRÜ ÜRETİMİ (PROMPT-BASED)
+                    # -----------------------------
+                    if len(positive_text) > 50:
+                        # Yapay zekaya tekil yorumları kopyalamamasını, genel bir ortak fikir damıtmasını emrediyoruz
+                        pos_prompt = f"Based on these customer reviews, what is the overall general consensus and what do most users agree on positively? Summarize the main shared opinion: {positive_text[:2500]}"
+                        inputs = summary_tokenizer(pos_prompt, return_tensors="pt", max_length=1024, truncation=True)
+                        summary_ids = summary_model.generate(
+                            inputs["input_ids"], 
+                            max_length=150, 
+                            min_length=30, 
+                            num_beams=4, 
+                            no_repeat_ngram_size=3,
+                            early_stopping=True
+                        )
+                        positive_summary = summary_tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+                    else:
+                        positive_summary = "Not enough positive comments to generate insights."
+
+                    if len(negative_text) > 50:
+                        neg_prompt = f"Based on these customer reviews, what are the most common complaints, issues, or negative trends that multiple users experience? Summarize the shared complaints: {negative_text[:2500]}"
+                        inputs = summary_tokenizer(neg_prompt, return_tensors="pt", max_length=1024, truncation=True)
+                        summary_ids = summary_model.generate(
+                            inputs["input_ids"], 
+                            max_length=150, 
+                            min_length=30, 
+                            num_beams=4, 
+                            no_repeat_ngram_size=3,
+                            early_stopping=True
+                        )
+                        negative_summary = summary_tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+                    else:
+                        negative_summary = "Not enough negative comments to generate insights."
+
+                    df["Confidence"] = [round(r["score"]*100, 1) for r in sent_results]
+                    df["Emotion"] = [r[0]["label"] for r in emot_results]
+
+                    # --- DASHBOARD ---
+                    st.markdown('<h3 class="white-header">📊 Deep Insights Dashboard</h3>', unsafe_allow_html=True)
                     
-                    labels = [f"{EMOJI_MAP.get(e, '❓')} {e.capitalize()}" for e in emot_counts.index]
-                    emot_colors = ['#a855f7', '#ec4899', '#f43f5e', '#fb923c', '#facc15', '#22d3ee']
+                    counts = df["Sentiment"].value_counts()
+                    emot_counts = df["Emotion"].value_counts().head(6)
                     
-                    bars = ax2.barh(labels, emot_counts.values, color=emot_colors, height=0.7)
-                    ax2.set_xticks([]); ax2.invert_yaxis()
-                    for spine in ax2.spines.values(): spine.set_visible(False)
-                    for bar in bars:
-                        ax2.text(bar.get_width() + 0.3, bar.get_y() + bar.get_height()/2, 
-                                f'{int(bar.get_width())}', va='center', color='white', fontweight='bold')
-                    ax2.tick_params(axis='y', colors='white', labelsize=11)
-                    st.pyplot(fig2)
+                    m1, m2, m3 = st.columns(3)
+                    m1.metric("Positive", f"{counts.get('Positive', 0)}", "↑")
+                    m2.metric("Negative", f"{counts.get('Negative', 0)}", "↓")
+                    m3.metric("Neutral", f"{counts.get('Neutral', 0)}", "↔")
 
-                st.markdown('<h3 class="white-header">📝 Insights Library</h3>', unsafe_allow_html=True)
-                st.dataframe(df[["Comment", "Sentiment", "Emotion", "Confidence"]].head(25), use_container_width=True)
+                    st.markdown("<br>", unsafe_allow_html=True)
+                    col_left, col_right = st.columns(2)
+                    
+                    with col_left:
+                        st.markdown("<p style='font-weight: bold; color: white;'>🎯 Sentiment Share</p>", unsafe_allow_html=True)
+                        fig1, ax1 = plt.subplots(figsize=(6, 5))
+                        fig1.patch.set_alpha(0)
+                        colors = ['#3b82f6', '#ef4444', '#94a3b8']
+                        
+                        current_colors = [colors[0] if idx == 'Positive' else colors[1] if idx == 'Negative' else colors[2] for idx in counts.index]
+                        
+                        ax1.pie(counts, labels=counts.index, autopct='%1.1f%%', startangle=140, colors=current_colors,
+                                pctdistance=0.75, textprops={'color':"w", 'weight':'bold'},
+                                wedgeprops={'width': 0.4, 'edgecolor': '#0f172a', 'linewidth': 2})
+                        st.pyplot(fig1)
+
+                    with col_right:
+                        st.markdown("<p style='font-weight: bold; color: white;'>🎭 Emotional Tone</p>", unsafe_allow_html=True)
+                        fig2, ax2 = plt.subplots(figsize=(8, 6))
+                        fig2.patch.set_alpha(0)
+                        ax2.set_facecolor('none')
+                        
+                        labels = [f"{EMOJI_MAP.get(e, '❓')} {e.capitalize()}" for e in emot_counts.index]
+                        emot_colors = ['#a855f7', '#ec4899', '#f43f5e', '#fb923c', '#facc15', '#22d3ee']
+                        
+                        bars = ax2.barh(labels, emot_counts.values, color=emot_colors[:len(labels)], height=0.7)
+                        ax2.set_xticks([])
+                        ax2.invert_yaxis()
+                        for spine in ax2.spines.values(): 
+                            spine.set_visible(False)
+                        for bar in bars:
+                            ax2.text(bar.get_width() + 0.3, bar.get_y() + bar.get_height()/2, 
+                                    f'{int(bar.get_width())}', va='center', color='white', fontweight='bold')
+                        ax2.tick_params(axis='y', colors='white', labelsize=11)
+                        st.pyplot(fig2)
+
+                    st.markdown('<h3 class="white-header">📝 Insights Library</h3>', unsafe_allow_html=True)
+                    st.dataframe(df[["Comment", "Sentiment", "Emotion", "Confidence"]].head(25), use_container_width=True)
+
+                    st.markdown("### 🟢 Positive Summary")
+                    st.success(positive_summary)
+
+                    st.markdown("### 🔴 Negative Summary")
+                    st.error(negative_summary)
 
             except Exception as e:
                 st.error(f"Analysis failed: {e}")
