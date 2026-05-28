@@ -1,0 +1,9 @@
+streamlit
+pandas
+praw
+matplotlib
+torch
+transformers
+nltk
+emoji
+textblob
